@@ -4,6 +4,7 @@
 cmake_minimum_required (VERSION 3.8)
 
 # ソースをこのプロジェクトの実行可能ファイルに追加します。
+add_executable(test_pid_controller TestPidController PidController.cpp)
 
 # TODO: テストを追加し、必要な場合は、ターゲットをインストールします。
 

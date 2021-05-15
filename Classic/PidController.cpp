@@ -67,6 +67,7 @@ void PidController::info() {
     std::cout << "kp \t = \t " << this->kp_ << std::endl;
     std::cout << "ki \t = \t " << this->ki_ << std::endl;
     std::cout << "kd \t = \t " << this->kd_ << std::endl;
+    std::cout << "error \t = \t" << this->current_error_ << std::endl;
     std::cout << "---------------------------------------------" << std::endl;
 }
 
@@ -76,7 +77,7 @@ std::string PidController::getExceptionMessageAboutGainInit(const std::string pa
     error_message << parameter_name << " gain value is not good. " << std::endl;
     error_message << parameter_name << " gain should be bigger than 0. " << std::endl;
     error_message << "But, " << parameter_name << " is " << gain_value << std::endl;
-    return error_message;
+    return error_message.str();
 }
 
 double PidController::step(const double r, const double y) {
@@ -84,7 +85,7 @@ double PidController::step(const double r, const double y) {
     // If dt is not constant, calculate dt
     if (this->is_dt_constant_ == false)
     {
-        this->dt_ = std::chrono::high_resolution_clock::now() - this->previous_step_time_point;
+        this->dt_ = (std::chrono::high_resolution_clock::now() - this->previous_step_time_point_).count();
     }
 
     // calculate error

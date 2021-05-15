@@ -26,6 +26,6 @@ private:
 	double cumulative_integral_ = 0;
 	double current_error_ = 0;
 	double previous_error_ = 0;
-	std::chrono::time_point previous_step_time_point_;
+	std::chrono::time_point<std::chrono::high_resolution_clock> previous_step_time_point_;
 	bool is_dt_constant_ = true;
 };
