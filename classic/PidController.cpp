@@ -1,5 +1,7 @@
-#include "PidController.h"
+#include "PidController.hpp"
 #include <sstream>
+
+PidController::PidController() {}
 
 PidController::PidController(const double dt, const double kp, const double ki,
                              const double kd) {
@@ -70,7 +72,7 @@ std::string PidController::getExceptionMessageAboutGainInit(
     return error_message.str();
 }
 
-double PidController::step(const double r, const double y) {
+double PidController::step(const double target_data, const double latest_data) {
 
     // If dt is not constant, calculate dt
     if (this->is_dt_constant_ == false) {
@@ -82,7 +84,7 @@ double PidController::step(const double r, const double y) {
 
     // calculate error
     this->previous_error_ = this->current_error_;
-    this->current_error_ = r - y;
+    this->current_error_ = target_data - latest_data;
 
     // calculate proportional
     double proportional_output = this->kp_ * this->current_error_;
