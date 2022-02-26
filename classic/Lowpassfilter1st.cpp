@@ -11,7 +11,7 @@ Lowpassfilter1st::Lowpassfilter1st(const double sampling_frequency,
     this->coeff_current_input = (T_sampling) / (2 * T_cutoff + T_sampling);
     this->coeff_previous_input = this->coeff_current_input;
     this->coeff_previous_output =
-        (2 * T_cutoff - 2 * T_sampling) / (2 * T_cutoff + T_sampling);
+        (2 * T_cutoff - T_sampling) / (2 * T_cutoff + T_sampling);
 }
 
 void Lowpassfilter1st::setCutoffFreqency(const double cutoff_frequency) {
