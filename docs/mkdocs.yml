@@ -1,0 +1,19 @@
+site_name: libcontrolive
+theme: material
+repo_url: https://github.com/harumo11/controlive
+site_description: A simple and easy to use library for control engineering.
+
+markdown_extensions:
+    - pymdownx.arithmatex:
+        generic: true
+    - pymdownx.details
+    - pymdownx.superfences
+    - admonition
+    - codehilite
+
+
+extra_javascript:
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+
