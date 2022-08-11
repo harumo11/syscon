@@ -57,6 +57,7 @@ void gnuplot::close_gnuplot()
 void gnuplot::write(std::string command)
 {
     Require(command.size() > 0, "The command is empty. The empty command can not be sent.");
+    Require(this->pipe_state == true, "Gnuplot was not open via pipe");
 
     if (command.back() != '\n') {
         command += "\n";
