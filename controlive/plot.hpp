@@ -75,7 +75,8 @@ public:
     ~scatter();
     void autoscale(bool on = true);
     void grid(bool on = true);
-    void plot(const double x, const double y, bool add = false);
+    void plot(const double x, const double y, bool add = true);
+    void plot(const std::vector<double>& x, const std::vector<double>& y, bool add = false);
     void set_xlabel(const std::string xlabel);
     void set_ylabel(const std::string ylable);
     void set_window_size(const unsigned int w, const unsigned int h);
