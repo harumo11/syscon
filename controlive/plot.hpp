@@ -9,7 +9,6 @@
 namespace controlive {
 
 class gnuplot {
-
 public:
     gnuplot();
     ~gnuplot();
@@ -68,6 +67,36 @@ void gnuplot::write(std::string command)
 void gnuplot::flush()
 {
     fflush(this->pipe);
+}
+
+class scatter {
+public:
+    scatter();
+    ~scatter();
+    gnuplot a;
+    void autoscale(bool on = true);
+    void grid(bool on = true);
+    void plot(auto x, auto y);
+    void set_xlabel(const std::string xlabel);
+    void set_ylabel(const std::string ylable);
+    void set_window_size(const unsigned int w, const unsigned int h);
+    void show(bool pause);
+
+private:
+    void plot_and_append();
+    void plot_once();
+};
+
+scatter::scatter()
+{
+}
+
+scatter::~scatter()
+{
+}
+
+void scatter::set_xlabel(const std::string xlabel)
+{
 }
 
 } // namespace controlive
