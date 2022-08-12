@@ -73,18 +73,18 @@ class scatter {
 public:
     scatter();
     ~scatter();
-    gnuplot a;
     void autoscale(bool on = true);
     void grid(bool on = true);
-    void plot(auto x, auto y);
+    void plot(const double x, const double y, bool add = false);
     void set_xlabel(const std::string xlabel);
     void set_ylabel(const std::string ylable);
     void set_window_size(const unsigned int w, const unsigned int h);
     void show(bool pause);
 
 private:
-    void plot_and_append();
+    void plot_and_add();
     void plot_once();
+    gnuplot gnuplot_;
 };
 
 scatter::scatter()
@@ -92,10 +92,6 @@ scatter::scatter()
 }
 
 scatter::~scatter()
-{
-}
-
-void scatter::set_xlabel(const std::string xlabel)
 {
 }
 
