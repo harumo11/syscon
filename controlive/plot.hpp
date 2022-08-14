@@ -34,6 +34,11 @@ gnuplot::gnuplot()
     }
 }
 
+gnuplot::~gnuplot()
+{
+    this->close();
+}
+
 bool gnuplot::open()
 {
     errno = 0;
@@ -77,16 +82,14 @@ public:
     ~scatter();
     void autoscale(bool on = true);
     void grid(bool on = true);
-    void plot(const double x, const double y, bool add = true);
-    void plot(const std::vector<double>& x, const std::vector<double>& y, bool add = false);
+    void plot(const double x, const double y, bool add_data = true);
+    void plot(const std::vector<double>& x, const std::vector<double>& y, bool add_data = false);
     void set_xlabel(const std::string xlabel);
     void set_ylabel(const std::string ylabel);
     void set_window_size(const unsigned int w = 640, const unsigned int h = 480);
-    void show(bool pause = false);
+    void show(bool pause_window = false);
 
 private:
-    void plot_and_add();
-    void plot_once();
     gnuplot gnuplot_;
     std::vector<double> x_plottable_data_;
     std::vector<double> y_plottable_data_;
@@ -118,15 +121,15 @@ void scatter::grid(bool on)
     }
 }
 
-void scatter::plot(const double x, const double y, bool add)
+void scatter::plot(const double x, const double y, bool add_data)
 {
-    if (add == false) {
+    if (add_data == false) {
         this->x_plottable_data_.clear();
         this->y_plottable_data_.clear();
     }
 
     this->x_plottable_data_.push_back(x);
-    this->y_plottable_data_.push_back(x);
+    this->y_plottable_data_.push_back(y);
 }
 
 void scatter::plot(const std::vector<double>& x, const std::vector<double>& y, bool add) { }
@@ -149,9 +152,10 @@ void scatter::set_window_size(const unsigned int w, const unsigned int h)
     this->gnuplot_.write(plot_command);
 }
 
-void scatter::show(bool pause)
+void scatter::show(bool pause_window)
 {
-    Require(this->x_plottable_data_.size() == this->y_plottable_data_.size(), "x and y that will be plot must have same size.");
+    Require(this->x_plottable_data_.size() == this->y_plottable_data_.size(),
+        "x and y that will be plot must have same size.");
 
     std::string plot_begin_command = "plot '-' w p pt 7 lw 1.5";
     this->gnuplot_.write(plot_begin_command);
@@ -165,6 +169,10 @@ void scatter::show(bool pause)
     std::string plot_end_command = "e";
     this->gnuplot_.write(plot_end_command);
     this->gnuplot_.flush();
+
+    if (pause_window == true) {
+        std::cin.get();
+    }
 }
 
 } // namespace cntl
