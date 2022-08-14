@@ -97,6 +97,8 @@ private:
 
 scatter::scatter()
 {
+    this->autoscale(true);
+    this->grid(true);
 }
 
 scatter::~scatter()
