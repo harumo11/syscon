@@ -6,7 +6,7 @@
 #include <string>
 #include <unistd.h>
 
-namespace controlive {
+namespace cntl {
 
 class gnuplot {
 public:
@@ -167,4 +167,4 @@ void scatter::show(bool pause)
     this->gnuplot_.flush();
 }
 
-} // namespace controlive
+} // namespace cntl
