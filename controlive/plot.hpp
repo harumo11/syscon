@@ -134,7 +134,16 @@ void scatter::plot(const double x, const double y, bool add_data)
     this->y_plottable_data_.push_back(y);
 }
 
-void scatter::plot(const std::vector<double>& x, const std::vector<double>& y, bool add) { }
+void scatter::plot(const std::vector<double>& x, const std::vector<double>& y, bool add_data)
+{
+    if (add_data == false) {
+        this->x_plottable_data_.clear();
+        this->y_plottable_data_.clear();
+    }
+
+    this->x_plottable_data_.insert(this->x_plottable_data_.end(), x.begin(), x.end());
+    this->y_plottable_data_.insert(this->y_plottable_data_.end(), y.begin(), y.end());
+}
 
 void scatter::set_xlabel(const std::string xlabel)
 {
