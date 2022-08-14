@@ -149,6 +149,22 @@ void scatter::set_window_size(const unsigned int w, const unsigned int h)
     this->gnuplot_.write(plot_command);
 }
 
-void scatter::show(bool pause) { }
+void scatter::show(bool pause)
+{
+    Require(this->x_plottable_data_.size() == this->y_plottable_data_.size(), "x and y that will be plot must have same size.");
+
+    std::string plot_begin_command = "plot '-' w p pt 7 lw 1.5";
+    this->gnuplot_.write(plot_begin_command);
+
+    auto plottable_data_size = this->x_plottable_data_.size();
+    for (int i = 0; i < plottable_data_size; i++) {
+        std::string plot_data_command = std::to_string(x_plottable_data_.at(i)) + "\t" + std::to_string(y_plottable_data_.at(i));
+        this->gnuplot_.write(plot_data_command);
+    }
+
+    std::string plot_end_command = "e";
+    this->gnuplot_.write(plot_end_command);
+    this->gnuplot_.flush();
+}
 
 } // namespace controlive
