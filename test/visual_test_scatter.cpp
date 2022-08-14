@@ -7,6 +7,7 @@
 int main(int argc, char* argv[])
 {
     std::cout << "||| 1st visual test start." << std::endl;
+    std::cout << "This test describes simply how to plot." << std::endl;
     cntl::scatter plot1;
     for (int i = 0; i < 100; i++) {
         double x = i;
@@ -19,6 +20,7 @@ int main(int argc, char* argv[])
     std::cin.get();
 
     std::cout << "||| 2nd visual test start." << std::endl;
+    std::cout << "This test describes differences of enable and disable of add_data option in plot()" << std::endl;
     cntl::scatter plot2;
     for (double rad = 0; rad < 2 * M_PI; rad += 0.1) {
         double x = std::cos(rad);
@@ -33,5 +35,6 @@ int main(int argc, char* argv[])
     }
     std::cout << "||| 2nd test finish. Press Enter key." << std::endl;
     std::cin.get();
+
     return 0;
 }
