@@ -52,8 +52,7 @@ bool gnuplot::open()
 
 void gnuplot::close()
 {
-    Require(this->pipe_status == true,
-        "Can not close gnuplot because gnuplot was not opend.");
+    Require(this->pipe_status == true, "Can not close gnuplot because gnuplot was not opend.");
 
     this->write("quit");
     pclose(this->pipe);
@@ -62,7 +61,7 @@ void gnuplot::close()
 
 void gnuplot::write(std::string command)
 {
-    Require(command.size() > 0, "The command is empty. The empty command can not be sent.");
+    Require(command.size() > 0, "The plot command is empty. The empty command can not be sent.");
     Require(this->pipe_status == true, "Gnuplot was not open via pipe");
 
     if (command.back() != '\n') {
