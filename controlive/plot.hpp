@@ -136,6 +136,10 @@ void scatter::plot(const double x, const double y, bool add_data)
 
 void scatter::plot(const std::vector<double>& x, const std::vector<double>& y, bool add_data)
 {
+
+    Require(x.size() > 0, "The size of x that will be plot must be bigger than 0.");
+    Require(y.size() > 0, "The size of y that will be plot must be bigger than 0.");
+
     if (add_data == false) {
         this->x_plottable_data_.clear();
         this->y_plottable_data_.clear();
