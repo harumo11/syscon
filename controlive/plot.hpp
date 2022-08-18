@@ -72,6 +72,8 @@ void gnuplot::write(std::string command)
 
 void gnuplot::flush()
 {
+    Require(this->pipe_status == true, "Gnuplot was not open via pipe");
+
     fflush(this->pipe);
 }
 
