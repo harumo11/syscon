@@ -6,5 +6,5 @@ find_package(Catch2 3 REQUIRED)
 
 #add_executable(test_clock test_clock.cpp)
 #target_link_libraries(test_clock PRIVATE Catch2::Catch2WithMain)
-add_executable(01_simple_realtime_scatter_plot 01_simple_realtime_scatter_plot.cpp)
-
+add_executable(01_scatter_simple_and_realtime 01_scatter_simple_and_realtime.cpp)
+add_executable(02_scatter_add_option 02_scatter_add_option.cpp)
