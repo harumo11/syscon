@@ -159,6 +159,9 @@ void scatter::set_ylabel(const std::string ylabel)
 
 void scatter::set_window_size(const unsigned int w, const unsigned int h)
 {
+    Require(w > 0, "Window width must be bigger than 0.");
+    Require(w > 0, "Window height must be bigger than 0.");
+
     std::string plot_command = "set terminal qt size " + std::to_string(w) + ", " + std::to_string(h);
     this->gnuplot_.write(plot_command);
 }
