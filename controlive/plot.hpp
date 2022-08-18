@@ -93,6 +93,7 @@ public:
 
 private:
     gnuplot gnuplot_;
+    bool is_set_plottable_data_ = false;
     std::vector<double> x_plottable_data_;
     std::vector<double> y_plottable_data_;
 };
@@ -134,6 +135,8 @@ void scatter::plot(const double x, const double y, bool add_data)
 
     this->x_plottable_data_.push_back(x);
     this->y_plottable_data_.push_back(y);
+
+    this->is_set_plottable_data_ = true;
 }
 
 void scatter::plot(const std::vector<double>& x, const std::vector<double>& y, bool add_data)
@@ -149,6 +152,8 @@ void scatter::plot(const std::vector<double>& x, const std::vector<double>& y, b
 
     this->x_plottable_data_.insert(this->x_plottable_data_.end(), x.begin(), x.end());
     this->y_plottable_data_.insert(this->y_plottable_data_.end(), y.begin(), y.end());
+
+    this->is_set_plottable_data_ = true;
 }
 
 void scatter::set_xlabel(const std::string xlabel)
@@ -180,8 +185,8 @@ void scatter::set_window_size(const unsigned int w, const unsigned int h)
 
 void scatter::show(bool pause_window)
 {
-    Require(this->x_plottable_data_.size() == this->y_plottable_data_.size(),
-        "x and y that will be plot must have same size.");
+    Require(this->x_plottable_data_.size() == this->y_plottable_data_.size(), "x and y that will be plot must have same size.");
+    Require(this->is_set_plottable_data_ = true, "Set the plottable data using plot(), before call show()");
 
     std::string plot_begin_command = "plot '-' w p pt 7 lw 1.5";
     this->gnuplot_.write(plot_begin_command);
