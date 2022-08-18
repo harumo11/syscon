@@ -6,19 +6,6 @@
 
 int main(int argc, char* argv[])
 {
-    std::cout << "||| 1st visual test start." << std::endl;
-    std::cout << "This test describes simply how to plot." << std::endl;
-    cntl::scatter plot1;
-    for (int i = 0; i < 100; i++) {
-        double x = i;
-        double y = x * x;
-        plot1.plot(x, y);
-        plot1.show();
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
-    std::cout << "||| 1st test finish. Press Enter key." << std::endl;
-    std::cin.get();
-
     std::cout << "||| 2nd visual test start." << std::endl;
     std::cout << "This test describes differences of enable and disable of add_data option in plot()" << std::endl;
     cntl::scatter plot2;
