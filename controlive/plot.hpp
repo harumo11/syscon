@@ -87,6 +87,7 @@ public:
     void plot(const std::vector<double>& x, const std::vector<double>& y, bool add_data = false);
     void set_xlabel(const std::string xlabel);
     void set_ylabel(const std::string ylabel);
+    void set_title(const std::string title);
     void set_window_size(const unsigned int w = 640, const unsigned int h = 480);
     void show(bool pause_window = false);
 
@@ -160,6 +161,12 @@ void scatter::set_ylabel(const std::string ylabel)
 {
     std::string plot_command = "\"" + ylabel + "\"";
     this->gnuplot_.write("set yl " + plot_command);
+}
+
+void scatter::set_title(const std::string title)
+{
+    std::string title_plot_command = "\"" + title + "\"";
+    this->gnuplot_.write("set title " + title_plot_command);
 }
 
 void scatter::set_window_size(const unsigned int w, const unsigned int h)
