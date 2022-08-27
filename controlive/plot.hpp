@@ -87,7 +87,7 @@ public:
     void plot(const std::vector<double>& x, const std::vector<double>& y, bool add_data = false);
     void set_xlabel(const std::string xlabel, const unsigned int font_size = 10);
     void set_ylabel(const std::string ylabel, const unsigned int font_size = 10);
-    void set_title(const std::string title);
+    void set_title(const std::string title, const unsigned int font_size = 10);
     void set_window_size(const unsigned int w = 640, const unsigned int h = 480);
     void show(bool pause_window = false);
 
@@ -176,8 +176,15 @@ void scatter::set_ylabel(const std::string ylabel, const unsigned int font_size)
     this->gnuplot_.write(ylabel_set_command);
 }
 
-void scatter::set_title(const std::string title)
+void scatter::set_title(const std::string title, const unsigned int font_size)
 {
+    Require(font_size != 0, "Font size in title must not be 0. But 0 is set.");
+
+    std::string font_set_command = "set title font \"Arial, " + std::to_string(font_size) + "\"";
+    std::string title_set_command = "set title \"" + title + "\"";
+    this->gnuplot_.write(font_set_command);
+    this->gnuplot_.write(title_set_command);
+
     std::string title_plot_command = "\"" + title + "\"";
     this->gnuplot_.write("set title " + title_plot_command);
 }
