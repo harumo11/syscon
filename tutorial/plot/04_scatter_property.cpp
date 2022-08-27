@@ -12,8 +12,8 @@ int main(int argc, char* argv[])
     // Set the property
     plot.set_window_size(900, 900);
     plot.set_title("Simple and good scatter plot");
-    plot.set_xlabel("simple x label");
-    plot.set_ylabel("good   y label");
+    plot.set_xlabel("simple x label", 20);
+    plot.set_ylabel("good   y label", 20);
 
     // Make the data to be plot.
     std::vector<double> x = { 0.0, 1.0, 2.0, 3.0, 4.0 };

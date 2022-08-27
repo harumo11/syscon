@@ -85,8 +85,8 @@ public:
     void grid(bool on = true);
     void plot(const double x, const double y, bool add_data = true);
     void plot(const std::vector<double>& x, const std::vector<double>& y, bool add_data = false);
-    void set_xlabel(const std::string xlabel);
-    void set_ylabel(const std::string ylabel);
+    void set_xlabel(const std::string xlabel, const unsigned int font_size = 10);
+    void set_ylabel(const std::string ylabel, const unsigned int font_size = 10);
     void set_title(const std::string title);
     void set_window_size(const unsigned int w = 640, const unsigned int h = 480);
     void show(bool pause_window = false);
@@ -143,7 +143,7 @@ void scatter::plot(const std::vector<double>& x, const std::vector<double>& y, b
 {
     Require(x.size() > 0, "The size of x that will be plot must be bigger than 0.");
     Require(y.size() > 0, "The size of y that will be plot must be bigger than 0.");
-    Require(x.size() == y.size(), "The size of x and y that will be plot must be same size.");
+    Require(x.size() == y.size(), "The data size of x and y that will be plot must be same size.");
 
     if (add_data == false) {
         this->x_plottable_data_.clear();
@@ -156,16 +156,24 @@ void scatter::plot(const std::vector<double>& x, const std::vector<double>& y, b
     this->is_set_plottable_data_ = true;
 }
 
-void scatter::set_xlabel(const std::string xlabel)
+void scatter::set_xlabel(const std::string xlabel, const unsigned int font_size)
 {
-    std::string plot_command = "\"" + xlabel + "\"";
-    this->gnuplot_.write("set xl " + plot_command);
+    Require(font_size != 0, "Font size in x label must not be 0. But 0 is set.");
+
+    std::string font_set_command = "set xl font \"Arial, " + std::to_string(font_size) + "\"";
+    std::string xlabel_set_command = "set xl \"" + xlabel + "\"";
+    this->gnuplot_.write(font_set_command);
+    this->gnuplot_.write(xlabel_set_command);
 }
 
-void scatter::set_ylabel(const std::string ylabel)
+void scatter::set_ylabel(const std::string ylabel, const unsigned int font_size)
 {
-    std::string plot_command = "\"" + ylabel + "\"";
-    this->gnuplot_.write("set yl " + plot_command);
+    Require(font_size != 0, "Font size in y label must not be 0. But 0 is set.");
+
+    std::string font_set_command = "set yl font \"Arial, " + std::to_string(font_size) + "\"";
+    std::string ylabel_set_command = "set yl \"" + ylabel + "\"";
+    this->gnuplot_.write(font_set_command);
+    this->gnuplot_.write(ylabel_set_command);
 }
 
 void scatter::set_title(const std::string title)
