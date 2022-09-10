@@ -20,6 +20,8 @@ int main(int argc, char* argv[])
             plot2.plot(x, y, true);
         } else {
             // From pi to 2pi, plot data without add option.
+            plot2.set_xrange(-1, 1);
+            plot2.set_yrange(-1, 0);
             plot2.plot(x, y, false);
         }
         plot2.show();
