@@ -6,7 +6,7 @@
 #include <string>
 #include <unistd.h>
 
-namespace cntl {
+namespace syscon {
 
 class gnuplot {
 public:
@@ -221,4 +221,4 @@ void scatter::show(bool pause_window)
     }
 }
 
-} // namespace cntl
+} // namespace syscon
