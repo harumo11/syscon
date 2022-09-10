@@ -205,6 +205,7 @@ void scatter::show(const bool pause_window, const bool with_line, const std::str
 
     std::string plot_begin_command;
     if (with_line) {
+        // color pallet is here. https://ayapin-film.sakura.ne.jp/Gnuplot/Primer/Misc/colornames.html
         plot_begin_command = std::string("plot '-' with lines linewidth 3 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
 
     } else {
