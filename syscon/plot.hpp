@@ -89,7 +89,7 @@ public:
     void set_ylabel(const std::string ylabel, const unsigned int font_size = 10);
     void set_title(const std::string title, const unsigned int font_size = 10);
     void set_window_size(const unsigned int w = 640, const unsigned int h = 480);
-    void show(bool pause_window = false);
+    void show(const bool pause_window = false, const bool with_line = false, const std::string color_name = "steelblue");
 
 private:
     gnuplot gnuplot_;
@@ -198,12 +198,19 @@ void scatter::set_window_size(const unsigned int w, const unsigned int h)
     this->gnuplot_.write(plot_command);
 }
 
-void scatter::show(bool pause_window)
+void scatter::show(const bool pause_window, const bool with_line, const std::string color_name)
 {
     Require(this->x_plottable_data_.size() == this->y_plottable_data_.size(), "x and y that will be plot must have same size.");
     Require(this->is_set_plottable_data_ = true, "Set the plottable data using plot(), before call show()");
 
-    std::string plot_begin_command = "plot '-' w p pt 7 lw 1.5";
+    std::string plot_begin_command;
+    if (with_line) {
+        plot_begin_command = std::string("plot '-' with lines linewidth 3 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
+
+    } else {
+        //plot_begin_command = "plot '-' with points pointtype 7 pointsize 1";
+        plot_begin_command = std::string("plot '-' with points pointtype 7 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
+    }
     this->gnuplot_.write(plot_begin_command);
 
     auto plottable_data_size = this->x_plottable_data_.size();

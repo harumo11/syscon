@@ -1,4 +1,4 @@
-#include "../../controlive/plot.hpp"
+#include "../../syscon/plot.hpp"
 #include <chrono>
 #include <cmath>
 #include <iostream>
@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
     std::cout << "||| This program describes the differences of enable and disable of add_data option in plot()" << std::endl;
 
     // Make the plot class.
-    cntl::scatter plot2;
+    syscon::scatter plot2;
 
     // Make the data to be plot.
     for (double rad = 0; rad < 2 * M_PI; rad += 0.1) {

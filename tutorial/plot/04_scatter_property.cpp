@@ -1,4 +1,4 @@
-#include "../../controlive/plot.hpp"
+#include "../../syscon/plot.hpp"
 #include <cmath>
 #include <iostream>
 
@@ -7,7 +7,7 @@ int main(int argc, char* argv[])
     std::cout << "||| This tutorial shows plot property such as title, label, and window size." << std::endl;
 
     // Make a plot class
-    cntl::scatter plot;
+    syscon::scatter plot;
 
     // Set the property
     plot.set_window_size(900, 900);
@@ -20,7 +20,9 @@ int main(int argc, char* argv[])
     plot.plot(x, x);
 
     // Plot the data with true option
+    std::cout << "Press ENTER key please" << std::endl;
     plot.show(true);
+    plot.show(true, true);
 
     return 0;
 }

@@ -1,4 +1,4 @@
-#include "../../controlive/plot.hpp"
+#include "../../syscon/plot.hpp"
 #include <chrono>
 #include <cmath>
 #include <iostream>
@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
     std::cout << "||| This program shows how to draw simple and realtime scatter plot." << std::endl;
 
     // Make the plot class.
-    cntl::scatter plot1;
+    syscon::scatter plot1;
 
     // Make the data and pass them into the plot().
     for (int i = 0; i < 100; i++) {
