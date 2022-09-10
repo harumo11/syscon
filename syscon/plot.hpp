@@ -87,6 +87,8 @@ public:
     void plot(const std::vector<double>& x, const std::vector<double>& y, bool add_data = false);
     void set_xlabel(const std::string xlabel, const unsigned int font_size = 10);
     void set_ylabel(const std::string ylabel, const unsigned int font_size = 10);
+    void set_xrange(const double min, const double max);
+    void set_yrange(const double min, const double max);
     void set_title(const std::string title, const unsigned int font_size = 10);
     void set_window_size(const unsigned int w = 640, const unsigned int h = 480);
     void show(const bool pause_window = false, const bool with_line = false, const std::string color_name = "steelblue");
@@ -174,6 +176,24 @@ void scatter::set_ylabel(const std::string ylabel, const unsigned int font_size)
     std::string ylabel_set_command = "set yl \"" + ylabel + "\"";
     this->gnuplot_.write(font_set_command);
     this->gnuplot_.write(ylabel_set_command);
+}
+
+void scatter::set_xrange(const double min, const double max)
+{
+    Require(max > min, "Now, min at x axis range is bigger than max. Min must be smaller than max");
+
+    this->autoscale(false);
+    std::string xrange_set_command = "set xrange[" + std::to_string(min) + ":" + std::to_string(max) + "]";
+    this->gnuplot_.write(xrange_set_command);
+}
+
+void scatter::set_yrange(const double min, const double max)
+{
+    Require(max > min, "Now, min at y axis range is bigger than max. Min must be smaller than max");
+
+    this->autoscale(false);
+    std::string yrange_set_command = "set yrange[" + std::to_string(min) + ":" + std::to_string(max) + "]";
+    this->gnuplot_.write(yrange_set_command);
 }
 
 void scatter::set_title(const std::string title, const unsigned int font_size)
