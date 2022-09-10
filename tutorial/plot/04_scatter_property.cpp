@@ -22,7 +22,8 @@ int main(int argc, char* argv[])
     // Plot the data with true option
     std::cout << "Press ENTER key please" << std::endl;
     plot.show(true);
-    plot.show(true, true);
+    std::cout << "you can see the color table at https://ayapin-film.sakura.ne.jp/Gnuplot/Primer/Misc/colornames.html" << std::endl;
+    plot.show(true, true, "salmon");
 
     return 0;
 }
