@@ -3,8 +3,7 @@
 #
 cmake_minimum_required (VERSION 3.12)
 
-project ("controlive")
-find_package(Eigen3 CONFIG REQUIRED)
+project ("syscon")
 
 # サブプロジェクトを含めます。
-add_subdirectory ("classic")
+add_subdirectory ("syscon")
