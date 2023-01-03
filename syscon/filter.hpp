@@ -47,7 +47,7 @@ public:
     double step(const double observed_x)
     {
         Require(this->dt != 0, "Coefficients of filter (sampling period) is not valid. Did you set filter parameters?");
-        Require(this->time_constant != 0, "Coefficients of filter (time constant) is not valid. Did you set filter parameters?");
+        Require(this->T != 0, "Coefficients of filter (time constant) is not valid. Did you set filter parameters?");
 
         // shift x with one element and update with new observed value
         this->x.at(0) = this->x.at(1);
@@ -72,7 +72,7 @@ public:
      */
     std::tuple<std::vector<double>, std::vector<double>> get_filter_params()
     {
-        return { this->filter_coefficients, { this->dt, this->time_constant } };
+        return { this->filter_coefficients, { this->dt, this->T } };
     };
 
     /**
@@ -94,7 +94,7 @@ public:
 
 private:
     double dt = 0; // sampling period [s]
-    double time_constant = 0; // [s]
+    double T = 0; // [s]
     double y_previous = 0; // filterd output at t-1
     std::vector<double> x = { 0, 0 }; // input t-1 and t
     std::vector<double> filter_coefficients = { 0, 0, 0 }; // three coefficients of filter.
@@ -109,8 +109,7 @@ private:
      * @return Three coefficients of filter. Values for c1 to c3 in the below
      * equation. y[t] = c1 * x[t] + c2 * x[t-1] + c3 * y[t-1]
      */
-    std::vector<double> calc_filter_coefficients(const double cutoff_freq,
-        const double sample_freq)
+    std::vector<double> calc_filter_coefficients(const double cutoff_freq, const double sample_freq)
     {
         Require(cutoff_freq > 0, "Set a number bigger than 0 for the cut-off frequency.");
         Require(sample_freq > 0, "Set a number bigger than 0 for the sampling frequency.");
@@ -119,12 +118,12 @@ private:
         // convert sampling frequency [Hz] to sampling period [s]
         this->dt = 1.0 / sample_freq;
         // convert cut-off frequency [Hz] to time constant [s]
-        this->time_constant = fc2T(cutoff_freq);
+        this->T = fc2T(cutoff_freq);
         // calculate coefficients of filter
         std::vector<double> calculated_filter_coefficients = { 0, 0, 0 };
-        calculated_filter_coefficients.at(0) = this->dt / (this->dt + 2 * this->time_constant);
-        calculated_filter_coefficients.at(1) = this->dt / (this->dt + 2 * this->time_constant);
-        calculated_filter_coefficients.at(2) = -1 * (this->dt - 2 * this->time_constant) / (this->dt + 2 * this->time_constant);
+        calculated_filter_coefficients.at(0) = this->dt / (this->dt + 2 * this->T);
+        calculated_filter_coefficients.at(1) = this->dt / (this->dt + 2 * this->T);
+        calculated_filter_coefficients.at(2) = -1 * (this->dt - 2 * this->T) / (this->dt + 2 * this->T);
 
         return calculated_filter_coefficients;
     };
