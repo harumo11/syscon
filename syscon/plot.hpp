@@ -226,12 +226,12 @@ void scatter::show(const bool pause_window, const bool with_line, const std::str
     std::string plot_begin_command;
     if (with_line) {
         // color pallet is here. https://ayapin-film.sakura.ne.jp/Gnuplot/Primer/Misc/colornames.html
-        //plot_begin_command = std::string("plot '-' with lines linewidth 3 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
+        // plot_begin_command = std::string("plot '-' with lines linewidth 3 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
         plot_begin_command = std::string("plot '-' notitle with lines linewidth 3 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
 
     } else {
-        //plot_begin_command = "plot '-' with points pointtype 7 pointsize 1";
-        //plot_begin_command = std::string("plot '-' with points pointtype 7 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
+        // plot_begin_command = "plot '-' with points pointtype 7 pointsize 1";
+        // plot_begin_command = std::string("plot '-' with points pointtype 7 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
         plot_begin_command = std::string("plot '-' notitle with points pointtype 7 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
     }
     this->gnuplot_.write(plot_begin_command);
