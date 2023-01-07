@@ -106,7 +106,7 @@ public:
         std::sort(omega.begin(), omega.end());
 
         for (auto&& w : omega) {
-            auto G = this->frequency_represent(w);
+            auto G = this->continuous_frequency_represent(w);
             mag.push_back(std::abs(G));
             phase.push_back(std::arg(G));
         }
@@ -126,7 +126,7 @@ public:
      *
      * @return frequency response with specified w. Returned value is represents with complex type.
      */
-    std::complex<double> frequency_represent(const double omega)
+    std::complex<double> continuous_frequency_represent(const double omega)
     {
         Require(omega > 0, "Angular velocity w [rad/s] bigger than zero.");
         Require(this->T > 0, "Time constant T is not valid valued. Did you set filter parameter?");
