@@ -1,4 +1,4 @@
-#include "../../syscon/plot.hpp"
+#include "../../syscon/syscon.hpp"
 #include <chrono>
 #include <cmath>
 #include <iostream>
