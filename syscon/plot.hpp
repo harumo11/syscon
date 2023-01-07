@@ -77,7 +77,7 @@ public:
         this->grid(true);
     };
 
-    void autoscale(bool on)
+    void autoscale(bool on = true)
     {
         if (on == true) {
             this->gnuplot_.write("set autoscale");
@@ -86,7 +86,7 @@ public:
         }
     };
 
-    void grid(bool on)
+    void grid(bool on = true)
     {
         if (on == true) {
             this->gnuplot_.write("set grid lw 1.1");
@@ -95,7 +95,7 @@ public:
         }
     };
 
-    void plot(const double x, const double y, bool add_data)
+    void plot(const double x, const double y, bool add_data = true)
     {
         if (add_data == false) {
             this->x_plottable_data_.clear();
@@ -107,7 +107,7 @@ public:
         this->is_set_plottable_data_ = true;
     };
 
-    void plot(const std::vector<double>& x, const std::vector<double>& y, bool add_data)
+    void plot(const std::vector<double>& x, const std::vector<double>& y, bool add_data = false)
     {
         Require(x.size() > 0, "The size of x that will be plot must be bigger than 0.");
         Require(y.size() > 0, "The size of y that will be plot must be bigger than 0.");
@@ -124,7 +124,7 @@ public:
         this->is_set_plottable_data_ = true;
     };
 
-    void set_xlabel(const std::string xlabel, const unsigned int font_size)
+    void set_xlabel(const std::string xlabel, const unsigned int font_size = 10)
     {
         Require(font_size != 0, "Font size in x label must not be 0. But 0 is set.");
 
@@ -134,7 +134,7 @@ public:
         this->gnuplot_.write(xlabel_set_command);
     };
 
-    void set_ylabel(const std::string ylabel, const unsigned int font_size)
+    void set_ylabel(const std::string ylabel, const unsigned int font_size = 10)
     {
         Require(font_size != 0, "Font size in y label must not be 0. But 0 is set.");
 
@@ -162,7 +162,7 @@ public:
         this->gnuplot_.write(yrange_set_command);
     };
 
-    void set_title(const std::string title, const unsigned int font_size)
+    void set_title(const std::string title, const unsigned int font_size = 10)
     {
         Require(font_size != 0, "Font size in title must not be 0. But 0 is set.");
 
@@ -175,7 +175,7 @@ public:
         this->gnuplot_.write("set title " + title_plot_command);
     };
 
-    void set_window_size(const unsigned int w, const unsigned int h)
+    void set_window_size(const unsigned int w = 640, const unsigned int h = 480)
     {
         Require(w > 0, "Window width must be bigger than 0.");
         Require(w > 0, "Window height must be bigger than 0.");
@@ -184,7 +184,7 @@ public:
         this->gnuplot_.write(plot_command);
     };
 
-    void show(const bool pause_window, const bool with_line, const std::string color_name)
+    void show(const bool pause_window = false, const bool with_line = false, const std::string color_name = "steelblue")
     {
         Require(this->x_plottable_data_.size() == this->y_plottable_data_.size(), "x and y that will be plot must have same size.");
         Require(this->is_set_plottable_data_ = true, "Set the plottable data using plot(), before call show()");
@@ -222,6 +222,20 @@ private:
     bool is_set_plottable_data_ = false;
     std::vector<double> x_plottable_data_;
     std::vector<double> y_plottable_data_;
+};
+
+class bode_plot {
+public:
+    bode_plot();
+    void autoscale(bool on) {};
+    void grid(bool on) {};
+    void plot(const double x, const double y, bool add_data) {};
+    void set_xlabel(const std::string xlabel, const unsigned int font_size) {};
+    void set_ylabel(const std::string ylabel, const unsigned int font_size) {};
+    void set_logscale(bool on);
+    void set_xrange(const double min, const double max) {};
+    void set_yrange(const double min, const double max) {};
+    void set_title(const std::string title, const unsigned int font_size) {};
 };
 
 } // namespace syscon
