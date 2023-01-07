@@ -2,6 +2,7 @@
 
 #include "bertrand/include/bertrand/bertrand.hpp"
 #include "math.hpp"
+#include <algorithm>
 #include <complex>
 #include <iostream>
 #include <string>
@@ -87,19 +88,52 @@ public:
         this->filter_coefficients = this->calc_filter_coefficients(cutoff_freq, sample_freq);
     };
 
-    // TODO implementation is needed.
-    std::vector<std::complex<double>> frequency_response() {
+    /**
+     * @brief frequency responsese of the filter.
+     *
+     * @param omega vector of omega that you want to know the frequency response.
+     *
+     * @return Three vectors of magnitude, phase, and, omega. omega is sorted.
+     */
+    std::tuple<std::vector<double>, std::vector<double>, std::vector<double>> frequency_response(std::vector<double> omega)
+    {
+        Require(omega.size() > 0, "The size of omega vector is zero. That size must be bigger than zero.");
+        auto negative_value_index = std::find_if(omega.begin(), omega.end(), [](double omega) { return omega < 0; });
+        Require(negative_value_index == omega.end(), "Omega vector hass negative value. Omega must be bigger than or equal to zero.");
 
+        std::vector<double> mag;
+        std::vector<double> phase;
+        std::sort(omega.begin(), omega.end());
+
+        for (auto&& w : omega) {
+            auto G = this->frequency_represent(w);
+            mag.push_back(std::abs(G));
+            phase.push_back(std::arg(G));
+        }
+
+        return { mag, phase, omega };
     };
 
-    std::complex<double> frequency_represent(const double w)
+    /**
+     * @brief Returns coefficients of the transfer function at specified omega [rad/s].
+     *
+     * When w[rad/s] is specified, {real, imag} of G(jw) is returned with following equation.
+     * G(jw) = real + j * imag
+     * real = 1 / (1 + w^2 * T^2)
+     * imag = (-wT) / (1 + w^2 * T^2)
+     *
+     * @param omega Angular velocity [rad/s] that you want to know the filter frequency response.
+     *
+     * @return frequency response with specified w. Returned value is represents with complex type.
+     */
+    std::complex<double> frequency_represent(const double omega)
     {
-        Require(w > 0, "Angular velocity w [rad/s] bigger than zero.");
+        Require(omega > 0, "Angular velocity w [rad/s] bigger than zero.");
         Require(this->T > 0, "Time constant T is not valid valued. Did you set filter parameter?");
 
         // G(jw) = real + j * imag
-        double real = 1.0 / (1 + w * w + this->T * this->T);
-        double imag = (-1 * w * this->T) / (1 + w * w + this->T * this->T);
+        double real = 1.0 / (1 + omega * omega + this->T * this->T);
+        double imag = (-1 * omega * this->T) / (1 + omega * omega + this->T * this->T);
         std::complex<double> G(real, imag);
         return G;
     };
