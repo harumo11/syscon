@@ -5,6 +5,13 @@
 
 namespace syscon {
 
+/**
+ * @brief convert from time constant T [s] to cut-off frequency [Hz].
+ *
+ * @param T Time constant [s]
+ *
+ * @return cut-off frequency [Hz]
+ */
 double T2fc(auto const T)
 {
     return 1.0 / (static_cast<double>(T) * 2 * std::numbers::pi);
