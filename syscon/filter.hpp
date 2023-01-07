@@ -114,30 +114,6 @@ public:
         return { mag, phase, omega };
     };
 
-    /**
-     * @brief Returns coefficients of the transfer function at specified omega [rad/s].
-     *
-     * When w[rad/s] is specified, {real, imag} of G(jw) is returned with following equation.
-     * G(jw) = real + j * imag
-     * real = 1 / (1 + w^2 * T^2)
-     * imag = (-wT) / (1 + w^2 * T^2)
-     *
-     * @param omega Angular velocity [rad/s] that you want to know the filter frequency response.
-     *
-     * @return frequency response with specified w. Returned value is represents with complex type.
-     */
-    std::complex<double> continuous_frequency_represent(const double omega)
-    {
-        Require(omega > 0, "Angular velocity w [rad/s] bigger than zero.");
-        Require(this->T > 0, "Time constant T is not valid valued. Did you set filter parameter?");
-
-        // G(jw) = real + j * imag
-        double real = 1.0 / (1 + omega * omega + this->T * this->T);
-        double imag = (-1 * omega * this->T) / (1 + omega * omega + this->T * this->T);
-        std::complex<double> G(real, imag);
-        return G;
-    };
-
 private:
     double dt = 0; // sampling period [s]
     double T = 0; // [s]
@@ -172,6 +148,30 @@ private:
         calculated_filter_coefficients.at(2) = -1 * (this->dt - 2 * this->T) / (this->dt + 2 * this->T);
 
         return calculated_filter_coefficients;
+    };
+
+    /**
+     * @brief Returns the magnitude and phase at specified omega [rad/s] as the continuous system.
+     *
+     * When w[rad/s] is specified, {real, imag} of G(jw) is returned with following equation.
+     * G(jw) = real + j * imag
+     * real = 1 / (1 + w^2 * T^2)
+     * imag = (-wT) / (1 + w^2 * T^2)
+     *
+     * @param omega Angular velocity [rad/s] that you want to know the filter frequency response.
+     *
+     * @return frequency response with specified w. Returned value is represents with complex type.
+     */
+    std::complex<double> continuous_frequency_represent(const double omega)
+    {
+        Require(omega > 0, "Angular velocity w [rad/s] bigger than zero.");
+        Require(this->T > 0, "Time constant T is not valid valued. Did you set filter parameter?");
+
+        // G(jw) = real + j * imag
+        double real = 1.0 / (1 + omega * omega + this->T * this->T);
+        double imag = (-1 * omega * this->T) / (1 + omega * omega + this->T * this->T);
+        std::complex<double> G(real, imag);
+        return G;
     };
 };
 
