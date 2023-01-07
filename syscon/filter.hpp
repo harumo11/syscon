@@ -2,6 +2,7 @@
 
 #include "bertrand/include/bertrand/bertrand.hpp"
 #include "math.hpp"
+#include <complex>
 #include <iostream>
 #include <string>
 #include <tuple>
@@ -87,9 +88,20 @@ public:
     };
 
     // TODO implementation is needed.
-    std::tuple<std::vector<double>, std::vector<double>> frequency_response()
+    std::vector<std::complex<double>> frequency_response() {
+
+    };
+
+    std::complex<double> frequency_represent(const double w)
     {
-        return { { 0 }, { 0 } };
+        Require(w > 0, "Angular velocity w [rad/s] bigger than zero.");
+        Require(this->T > 0, "Time constant T is not valid valued. Did you set filter parameter?");
+
+        // G(jw) = real + j * imag
+        double real = 1.0 / (1 + w * w + this->T * this->T);
+        double imag = (-1 * w * this->T) / (1 + w * w + this->T * this->T);
+        std::complex<double> G(real, imag);
+        return G;
     };
 
 private:
