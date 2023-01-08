@@ -69,7 +69,7 @@ public:
      *   y[t] = c1 * x[t] + c2 * x[t-1] + c3 * y[t-1]
      *
      * - vector2 : time parameters of filter
-     *   - sampling time [s]
+     *   - sampling period [s]
      *   - time constant [s]
      */
     std::tuple<std::vector<double>, std::vector<double>> get_filter_params()
