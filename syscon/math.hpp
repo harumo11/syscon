@@ -20,11 +20,11 @@ double T2fc(auto const T)
 /**
  * @brief convert from cut-off frequency wc [rad/s] to time constant T [s].
  *
- * @param T Time domain [s]
+ * @param T Time constant [s]
  *
  * @return cut-off frequency [rad/s]
  */
-double wc2T(auto const T)
+double wc2T(auto const wc)
 {
     return 1.0 / static_cast<double>(T);
 }
@@ -38,5 +38,6 @@ double fc2T(auto const fc)
 {
     return 1.0 / (2 * std::numbers::pi * static_cast<double>(fc));
 }
+
 
 }
