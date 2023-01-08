@@ -5,5 +5,7 @@ cmake_minimum_required (VERSION 3.12)
 
 project ("syscon")
 
-# サブプロジェクトを含めます。
-add_subdirectory ("syscon")
+include_directories(syscon)
+add_subdirectory(test)
+add_subdirectory(tutorial/filter)
+add_subdirectory(tutorial/plot)
