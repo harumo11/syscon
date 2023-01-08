@@ -29,6 +29,11 @@ double wc2T(auto const wc)
     return 1.0 / static_cast<double>(T);
 }
 
+double T2wc(auto const T)
+{
+    return 1.0 / static_cast<double>(T);
+}
+
 double fc2wc(auto const fc)
 {
     return 2 * std::numbers::pi * static_cast<double>(fc);
