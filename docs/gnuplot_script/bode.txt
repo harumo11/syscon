@@ -1,0 +1,5 @@
+"multiplot"
+set multiplot layout 2,1 #multiplotの開始，２行１列
+plot cos(5.0)*exp(-x) title "plot 1"
+plot cos(5.0*(x-0.2))*exp(-x) title "plot 2"
+unset multiplot
