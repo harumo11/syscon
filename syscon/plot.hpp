@@ -1,6 +1,8 @@
 #pragma once
 
 #include "bertrand/include/bertrand/bertrand.hpp"
+#include "filter.hpp"
+#include <algorithm>
 #include <cstdio>
 #include <iostream>
 #include <string>
@@ -224,18 +226,163 @@ private:
     std::vector<double> y_plottable_data_;
 };
 
-class bode_plot {
+// TODO implementation
+class bodeplot {
 public:
-    bode_plot();
-    void autoscale(bool on) {};
-    void grid(bool on) {};
-    void plot(const double x, const double y, bool add_data) {};
-    void set_xlabel(const std::string xlabel, const unsigned int font_size) {};
-    void set_ylabel(const std::string ylabel, const unsigned int font_size) {};
-    void set_logscale(bool on);
-    void set_xrange(const double min, const double max) {};
-    void set_yrange(const double min, const double max) {};
-    void set_title(const std::string title, const unsigned int font_size) {};
+    bodeplot()
+    {
+        this->autoscale(true);
+        this->grid(true);
+    };
+
+    void autoscale(bool on = true)
+    {
+        if (on == true) {
+            this->gnuplot_.write("set autoscale");
+        } else {
+            this->gnuplot_.write("unset autoscale");
+        }
+    };
+
+    void grid(bool on = true)
+    {
+        if (on == true) {
+            this->gnuplot_.write("set grid lw 1.1");
+        } else {
+            this->gnuplot_.write("unset grid");
+        }
+    };
+
+    void plot(const std::vector<double>& mag, const std::vector<double>& phase, const std::vector<double>& omega)
+    {
+        Require(mag.size() > 0, "The size of magnitude that will be plot must be bigger than 0.");
+        Require(phase.size() > 0, "The size of phase that will be plot must be bigger than 0.");
+        Require(omega.size() > 0, "The size of omega that will be plot must be bigger than 0.");
+        Require(mag.size() == omega.size(), "The data size of magnitude and omega that will be plot must be same size.");
+        Require(phase.size() == omega.size(), "The data size of phase and omega that will be plot must be same size.");
+
+        std::vector<double> sorted_omega = omega;
+        std::sort(sorted_omega.begin(), sorted_omega.end());
+
+        this->mag_plottable_data_ = mag;
+        this->phase_plottable_data_ = phase;
+        this->omega_plottable_data_ = sorted_omega;
+        this->is_set_plottable_data_ = true;
+    };
+
+    void plot(lowpass1 filter)
+    {
+        auto [_, filter_params] = filter.get_filter_params();
+        double time_constant = filter_params.at(1);
+        double cutoff_freq = T2wc(time_constant); // cutoff frequency [rad/s]
+        double sample_period = filter_params.at(0);
+        double sample_freq = 2 * std::numbers::pi * (1.0 / sample_period); // sampling frequency [rad/s]
+
+        // TODO
+        std::vector<double> omega =
+
+            this->is_set_plottable_data_ = true;
+    };
+
+    void set_xlabel(const std::string xlabel, const unsigned int font_size = 10)
+    {
+        Require(font_size != 0, "Font size in x label must not be 0. But 0 is set.");
+
+        std::string font_set_command = "set xl font \"Arial, " + std::to_string(font_size) + "\"";
+        std::string xlabel_set_command = "set xl \"" + xlabel + "\"";
+        this->gnuplot_.write(font_set_command);
+        this->gnuplot_.write(xlabel_set_command);
+    };
+
+    void set_ylabel(const std::string ylabel, const unsigned int font_size = 10)
+    {
+        Require(font_size != 0, "Font size in y label must not be 0. But 0 is set.");
+
+        std::string font_set_command = "set yl font \"Arial, " + std::to_string(font_size) + "\"";
+        std::string ylabel_set_command = "set yl \"" + ylabel + "\"";
+        this->gnuplot_.write(font_set_command);
+        this->gnuplot_.write(ylabel_set_command);
+    };
+
+    void set_xrange(const double min, const double max)
+    {
+        Require(max > min, "Now, min at x axis range is bigger than max. Min must be smaller than max");
+
+        this->autoscale(false);
+        std::string xrange_set_command = "set xrange[" + std::to_string(min) + ":" + std::to_string(max) + "]";
+        this->gnuplot_.write(xrange_set_command);
+    };
+
+    void set_yrange(const double min, const double max)
+    {
+        Require(max > min, "Now, min at y axis range is bigger than max. Min must be smaller than max");
+
+        this->autoscale(false);
+        std::string yrange_set_command = "set yrange[" + std::to_string(min) + ":" + std::to_string(max) + "]";
+        this->gnuplot_.write(yrange_set_command);
+    };
+
+    void set_title(const std::string title, const unsigned int font_size = 10)
+    {
+        Require(font_size != 0, "Font size in title must not be 0. But 0 is set.");
+
+        std::string font_set_command = "set title font \"Arial, " + std::to_string(font_size) + "\"";
+        std::string title_set_command = "set title \"" + title + "\"";
+        this->gnuplot_.write(font_set_command);
+        this->gnuplot_.write(title_set_command);
+
+        std::string title_plot_command = "\"" + title + "\"";
+        this->gnuplot_.write("set title " + title_plot_command);
+    };
+
+    void set_window_size(const unsigned int w = 640, const unsigned int h = 480)
+    {
+        Require(w > 0, "Window width must be bigger than 0.");
+        Require(w > 0, "Window height must be bigger than 0.");
+
+        std::string plot_command = "set terminal qt size " + std::to_string(w) + ", " + std::to_string(h);
+        this->gnuplot_.write(plot_command);
+    };
+
+    void show(const bool pause_window = false, const bool with_line = false, const std::string color_name = "steelblue")
+    {
+        Require(this->x_plottable_data_.size() == this->y_plottable_data_.size(), "x and y that will be plot must have same size.");
+        Require(this->is_set_plottable_data_ = true, "Set the plottable data using plot(), before call show()");
+
+        std::string plot_begin_command;
+        if (with_line) {
+            // color pallet is here. https://ayapin-film.sakura.ne.jp/Gnuplot/Primer/Misc/colornames.html
+            // plot_begin_command = std::string("plot '-' with lines linewidth 3 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
+            plot_begin_command = std::string("plot '-' notitle with lines linewidth 3 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
+
+        } else {
+            // plot_begin_command = "plot '-' with points pointtype 7 pointsize 1";
+            // plot_begin_command = std::string("plot '-' with points pointtype 7 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
+            plot_begin_command = std::string("plot '-' notitle with points pointtype 7 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
+        }
+        this->gnuplot_.write(plot_begin_command);
+
+        auto plottable_data_size = this->x_plottable_data_.size();
+        for (int i = 0; i < plottable_data_size; i++) {
+            std::string plot_data_command = std::to_string(x_plottable_data_.at(i)) + "\t" + std::to_string(y_plottable_data_.at(i));
+            this->gnuplot_.write(plot_data_command);
+        }
+
+        std::string plot_end_command = "e";
+        this->gnuplot_.write(plot_end_command);
+        this->gnuplot_.flush();
+
+        if (pause_window == true) {
+            std::cin.get();
+        }
+    };
+
+private:
+    gnuplot gnuplot_;
+    bool is_set_plottable_data_ = false;
+    std::vector<double> mag_plottable_data_;
+    std::vector<double> phase_plottable_data_;
+    std::vector<double> omega_plottable_data_;
 };
 
 } // namespace syscon
