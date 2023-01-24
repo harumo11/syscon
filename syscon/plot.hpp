@@ -253,7 +253,7 @@ public:
         }
     };
 
-    void plot(const std::vector<double>& mag, const std::vector<double>& phase, const std::vector<double>& omega)
+    void plot(const std::vector<double> mag, const std::vector<double> phase, const std::vector<double> omega)
     {
         Require(mag.size() > 0, "The size of magnitude that will be plot must be bigger than 0.");
         Require(phase.size() > 0, "The size of phase that will be plot must be bigger than 0.");
