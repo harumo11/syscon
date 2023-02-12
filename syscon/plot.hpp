@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cstdio>
 #include <iostream>
+#include <numeric>
 #include <string>
 #include <unistd.h>
 
@@ -273,15 +274,21 @@ public:
     void plot(lowpass1 filter)
     {
         auto [_, filter_params] = filter.get_filter_params();
+        double sample_period = filter_params.at(0);
         double time_constant = filter_params.at(1);
         double cutoff_freq = T2wc(time_constant); // cutoff frequency [rad/s]
-        double sample_period = filter_params.at(0);
         double sample_freq = 2 * std::numbers::pi * (1.0 / sample_period); // sampling frequency [rad/s]
 
-        // TODO
-        std::vector<double> omega =
+        // calc max frequency limit for bode plot
+        std::vector<double> sorted_omega(int(sample_freq / 2), 0);
+        std::iota(sorted_omega.begin(), sorted_omega.end(), 0);
 
-            this->is_set_plottable_data_ = true;
+        auto [mag, phase, omega] = filter.frequency_response(sorted_omega);
+
+        this->mag_plottable_data_ = mag;
+        this->phase_plottable_data_ = phase;
+        this->omega_plottable_data_ = omega;
+        this->is_set_plottable_data_ = true;
     };
 
     void set_xlabel(const std::string xlabel, const unsigned int font_size = 10)
@@ -344,32 +351,44 @@ public:
         this->gnuplot_.write(plot_command);
     };
 
-    void show(const bool pause_window = false, const bool with_line = false, const std::string color_name = "steelblue")
+    void show(const bool pause_window = true, const std::string color_name = "steelblue")
     {
-        Require(this->x_plottable_data_.size() == this->y_plottable_data_.size(), "x and y that will be plot must have same size.");
+        Require(this->omega_plottable_data_.size() == this->phase_plottable_data_.size(), "The data size of omega and phase must have same size.");
+        Require(this->omega_plottable_data_.size() == this->mag_plottable_data_.size(), "The data size of omega and magnitudde must have same size.");
         Require(this->is_set_plottable_data_ = true, "Set the plottable data using plot(), before call show()");
 
-        std::string plot_begin_command;
-        if (with_line) {
-            // color pallet is here. https://ayapin-film.sakura.ne.jp/Gnuplot/Primer/Misc/colornames.html
-            // plot_begin_command = std::string("plot '-' with lines linewidth 3 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
-            plot_begin_command = std::string("plot '-' notitle with lines linewidth 3 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
+        std::string plot_prepare_command;
+        // set terminal size
+        plot_prepare_command = std::string("set terminal qt size 1200, 800");
+        this->gnuplot_.write(plot_prepare_command);
+        // set multiplot
+        plot_prepare_command = std::string("set multiplot layout 2,1");
+        this->gnuplot_.write(plot_prepare_command);
+        // set logscale for x axis
+        plot_prepare_command = std::string("set logscale x");
+        this->gnuplot_.write(plot_prepare_command);
 
-        } else {
-            // plot_begin_command = "plot '-' with points pointtype 7 pointsize 1";
-            // plot_begin_command = std::string("plot '-' with points pointtype 7 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
-            plot_begin_command = std::string("plot '-' notitle with points pointtype 7 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
+        // plot1 send the plot data magnitude and omega
+        std::string plot1_begin_command = std::string("plot '-' title 'Magnitude' with lines linewidth 5 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
+        this->gnuplot_.write(plot1_begin_command);
+        // send plot end command for plot1
+        for (int i = 0; i < this->omega_plottable_data_.size(); i++) {
+            std::string plot1_data_command = std::to_string(this->omega_plottable_data_.at(i)) + "\t" + std::to_string(this->mag_plottable_data_.at(i));
+            this->gnuplot_.write(plot1_data_command);
         }
-        this->gnuplot_.write(plot_begin_command);
+        std::string plot1_end_command = "e";
+        this->gnuplot_.write(plot1_end_command);
 
-        auto plottable_data_size = this->x_plottable_data_.size();
-        for (int i = 0; i < plottable_data_size; i++) {
-            std::string plot_data_command = std::to_string(x_plottable_data_.at(i)) + "\t" + std::to_string(y_plottable_data_.at(i));
-            this->gnuplot_.write(plot_data_command);
+        // plot2 send the plot data phase and omega
+        std::string plot2_begin_command = std::string("plot '-' title 'Magnitude' with lines linewidth 5 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
+        this->gnuplot_.write(plot2_begin_command);
+        // send plot end command for plot2
+        for (int i = 0; i < this->omega_plottable_data_.size(); i++) {
+            std::string plot2_data_command = std::to_string(this->omega_plottable_data_.at(i)) + "\t" + std::to_string(this->phase_plottable_data_.at(i));
+            this->gnuplot_.write(plot2_data_command);
         }
-
-        std::string plot_end_command = "e";
-        this->gnuplot_.write(plot_end_command);
+        std::string plot2_end_command = "e";
+        this->gnuplot_.write(plot2_end_command);
         this->gnuplot_.flush();
 
         if (pause_window == true) {
