@@ -164,8 +164,8 @@ private:
      */
     std::complex<double> continuous_frequency_represent(const double omega)
     {
-        Require(omega > 0, "Angular velocity w [rad/s] bigger than zero.");
-        Require(this->T > 0, "Time constant T is not valid valued. Did you set filter parameter?");
+        Require(omega >= 0, "Angular velocity w [rad/s] bigger than zero.");
+        Require(this->T >= 0, "Time constant T is not valid valued. Did you set filter parameter?");
 
         // G(jw) = real + j * imag
         double real = 1.0 / (1 + omega * omega + this->T * this->T);
