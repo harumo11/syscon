@@ -168,8 +168,8 @@ private:
         Require(this->T >= 0, "Time constant T is not valid valued. Did you set filter parameter?");
 
         // G(jw) = real + j * imag
-        double real = 1.0 / (1 + omega * omega + this->T * this->T);
-        double imag = (-1 * omega * this->T) / (1 + omega * omega + this->T * this->T);
+        double real = 1.0 / (1 + omega * omega * this->T * this->T);
+        double imag = (-1 * omega * this->T) / (1 + omega * omega * this->T * this->T);
         std::complex<double> G(real, imag);
         return G;
     };
