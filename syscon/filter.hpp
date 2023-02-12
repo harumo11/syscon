@@ -107,7 +107,7 @@ public:
 
         for (auto&& w : omega) {
             auto G = this->continuous_frequency_represent(w);
-            mag.push_back(std::abs(G));
+            mag.push_back(20 * std::log10(std::abs(G)));
             phase.push_back(std::arg(G));
         }
 
