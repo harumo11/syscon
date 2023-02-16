@@ -227,7 +227,6 @@ private:
     std::vector<double> y_plottable_data_;
 };
 
-// TODO implementation
 class bodeplot {
 public:
     bodeplot()
@@ -345,7 +344,7 @@ public:
     void set_window_size(const unsigned int w = 640, const unsigned int h = 480)
     {
         Require(w > 0, "Window width must be bigger than 0.");
-        Require(w > 0, "Window height must be bigger than 0.");
+        Require(h > 0, "Window height must be bigger than 0.");
 
         std::string plot_command = "set terminal qt size " + std::to_string(w) + ", " + std::to_string(h);
         this->gnuplot_.write(plot_command);
@@ -359,9 +358,8 @@ public:
 
         std::string plot_prepare_command;
         // set terminal size
-        plot_prepare_command = std::string("set terminal qt size 1200, 800");
-        this->gnuplot_.write(plot_prepare_command);
-        // set multiplot
+        this->set_window_size(1200, 800);
+        //  set multiplot
         plot_prepare_command = std::string("set multiplot layout 2,1");
         this->gnuplot_.write(plot_prepare_command);
         // set logscale for x axis
