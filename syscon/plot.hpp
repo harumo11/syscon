@@ -368,9 +368,13 @@ public:
         plot_prepare_command = std::string("set logscale x");
         this->gnuplot_.write(plot_prepare_command);
 
-        // plot1 send the plot data magnitude and omega
+        // plot1 for plotting magnitude
+        // set y label
+        this->set_ylabel("Magnitude [dB]");
+        // send plot beginning command and data of magnitude and omega
         std::string plot1_begin_command = std::string("plot '-' title 'Magnitude' with lines linewidth 5 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
         this->gnuplot_.write(plot1_begin_command);
+
         // send plot end command for plot1
         for (int i = 0; i < this->omega_plottable_data_.size(); i++) {
             std::string plot1_data_command = std::to_string(this->omega_plottable_data_.at(i)) + "\t" + std::to_string(this->mag_plottable_data_.at(i));
@@ -380,7 +384,11 @@ public:
         this->gnuplot_.write(plot1_end_command);
 
         // plot2 send the plot data phase and omega
-        std::string plot2_begin_command = std::string("plot '-' title 'Magnitude' with lines linewidth 5 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
+        // set y and x label
+        this->set_xlabel("ω [rad/s]");
+        this->set_ylabel("Phase [deg]");
+        // send plot beginning command and data of phase and omega
+        std::string plot2_begin_command = std::string("plot '-' title 'Phase' with lines linewidth 5 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
         this->gnuplot_.write(plot2_begin_command);
         // send plot end command for plot2
         for (int i = 0; i < this->omega_plottable_data_.size(); i++) {
