@@ -372,7 +372,7 @@ public:
         // set y label
         this->set_ylabel("Magnitude [dB]");
         // send plot beginning command and data of magnitude and omega
-        std::string plot1_begin_command = std::string("plot '-' title 'Magnitude' with lines linewidth 5 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
+        std::string plot1_begin_command = std::string("plot '-' notitle with lines linewidth 5 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
         this->gnuplot_.write(plot1_begin_command);
 
         // send plot end command for plot1
@@ -388,7 +388,7 @@ public:
         this->set_xlabel("ω [rad/s]");
         this->set_ylabel("Phase [deg]");
         // send plot beginning command and data of phase and omega
-        std::string plot2_begin_command = std::string("plot '-' title 'Phase' with lines linewidth 5 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
+        std::string plot2_begin_command = std::string("plot '-' notitle with lines linewidth 5 linecolor rgbcolor ") + std::string("\'") + color_name + std::string("\'");
         this->gnuplot_.write(plot2_begin_command);
         // send plot end command for plot2
         for (int i = 0; i < this->omega_plottable_data_.size(); i++) {
