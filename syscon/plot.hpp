@@ -181,7 +181,7 @@ public:
     void set_window_size(const unsigned int w = 640, const unsigned int h = 480)
     {
         Require(w > 0, "Window width must be bigger than 0.");
-        Require(w > 0, "Window height must be bigger than 0.");
+        Require(h > 0, "Window height must be bigger than 0.");
 
         std::string plot_command = "set terminal qt size " + std::to_string(w) + ", " + std::to_string(h);
         this->gnuplot_.write(plot_command);
