@@ -1,3 +1,6 @@
 [submodule "controlive/bertrand"]
 	path = controlive/bertrand
 	url = https://github.com/bernedom/bertrand.git
+[submodule "syscon/third_pary/bertrand"]
+	path = syscon/third_pary/bertrand
+	url = https://github.com/bernedom/bertrand.git
