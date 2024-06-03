@@ -1,8 +1,12 @@
 # syscon
 
+## Git clone
+git clone --recursive
+
 ## Dependencies
 1. Catch2 version3
 2. Gnuplot
+3. bertrand
 
 ## Installation
 

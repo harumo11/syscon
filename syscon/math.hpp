@@ -1,12 +1,15 @@
 #pragma once
 
-#include <iostream>
 #include <numbers>
 
 namespace syscon {
 
 /**
- * @brief convert from time constant T [s] to cut-off frequency [Hz].
+ * @brief convert from time constant T [s] to cut-off frequency fc [Hz].
+ *
+ * $$
+ * f_c = \frac{1}{2\pi T}
+ * $$
  *
  * @param T Time constant [s]
  *
@@ -20,25 +23,62 @@ double T2fc(auto const T)
 /**
  * @brief convert from cut-off frequency wc [rad/s] to time constant T [s].
  *
- * @param T Time constant [s]
+ * $$
+ * T = \frac{1}{w_c}
+ * $$
  *
- * @return cut-off frequency [rad/s]
+ * @param wc cuf-off frequency [rad/s]
+ *
+ * @return Time constant [s]
  */
 double wc2T(auto const wc)
 {
     return 1.0 / static_cast<double>(wc);
 }
 
+/**
+ * @brief convert from time constant T [s] to cut-off frequency wc [rad/s].
+ *
+ * $$
+ * w_c = \frac{1}{T}
+ * $$
+ *
+ * @param T Time constant [s]
+ *
+ * @return cut-off frequency [rad/s]
+ */
 double T2wc(auto const T)
 {
     return 1.0 / static_cast<double>(T);
 }
 
+/**
+ * @brief convert from cut-off frequency fc [Hz] to cut-off frequency wc [rad/s].
+ *
+ * $$
+ * w_c = 2\pi f_c
+ * $$
+ *
+ * @param fc cut-off frequency [Hz]
+ *
+ * @return cut-off frequency [rad/s]
+ */
 double fc2wc(auto const fc)
 {
     return 2 * std::numbers::pi * static_cast<double>(fc);
 }
 
+/**
+ * @brief convert from cut-off frequency fc [Hz] to time constant T [s].
+ *
+ * $$
+ * T = \frac{1}{2\pi f_c}
+ * $$
+ *
+ * @param fc cut-off frequency [Hz]
+ *
+ * @return Time constant T [s]
+ */
 double fc2T(auto const fc)
 {
     return 1.0 / (2 * std::numbers::pi * static_cast<double>(fc));

@@ -1,10 +1,9 @@
 #pragma once
 
-#include "bertrand/include/bertrand/bertrand.hpp"
+#include "./third_pary/bertrand/include/bertrand/bertrand.hpp"
 #include "math.hpp"
 #include <algorithm>
 #include <complex>
-#include <iostream>
 #include <string>
 #include <tuple>
 #include <vector>
