@@ -17,6 +17,7 @@ public:
 
     /**
      * @brief The constructor of First-order system.
+     *
      * This constructor dose not take any arguments, so use
      * lowpass1::set_filter_params() to pass the filter parameter before you use
      * this filter.
@@ -25,6 +26,7 @@ public:
 
     /**
      * @brief The constructor of First-order system.
+     *
      * This constructor takes all the parameters that needed to start using the
      * filter.
      *
@@ -34,7 +36,7 @@ public:
     lowpass1(const double cutoff_freq, const double sample_freq)
     {
         this->filter_coefficients = this->calc_filter_coefficients(cutoff_freq, sample_freq);
-    };
+    }
 
     /**
      * @brief Returns the value with high frequency components removed.
@@ -58,7 +60,7 @@ public:
 
         this->y_previous = y;
         return y;
-    };
+    }
 
     /**
      * @brief Returns coefficients and parameter of filter.
@@ -74,7 +76,7 @@ public:
     std::tuple<std::vector<double>, std::vector<double>> get_filter_params()
     {
         return { this->filter_coefficients, { this->dt, this->T } };
-    };
+    }
 
     /**
      * @brief Set cut-off frequency and sampling frequency of filter.
@@ -85,7 +87,7 @@ public:
     void set_filter_params(const double cutoff_freq, const double sample_freq)
     {
         this->filter_coefficients = this->calc_filter_coefficients(cutoff_freq, sample_freq);
-    };
+    }
 
     /**
      * @brief frequency responsese of the filter.
@@ -111,7 +113,7 @@ public:
         }
 
         return { mag, phase, omega };
-    };
+    }
 
 private:
     double dt = 0; // sampling period [s]
@@ -147,7 +149,7 @@ private:
         calculated_filter_coefficients.at(2) = -1 * (this->dt - 2 * this->T) / (this->dt + 2 * this->T);
 
         return calculated_filter_coefficients;
-    };
+    }
 
     /**
      * @brief Returns the magnitude and phase at specified omega [rad/s] as the continuous system.
@@ -171,7 +173,7 @@ private:
         double imag = (-1 * omega * this->T) / (1 + omega * omega * this->T * this->T);
         std::complex<double> G(real, imag);
         return G;
-    };
+    }
 };
 
 } // namespace syscon
