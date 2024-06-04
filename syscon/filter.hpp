@@ -22,7 +22,7 @@ public:
      * lowpass1::set_filter_params() to pass the filter parameter before you use
      * this filter.
      */
-    lowpass1() {};
+    lowpass1() { }
 
     /**
      * @brief The constructor of First-order system.

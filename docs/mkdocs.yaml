@@ -1,4 +1,4 @@
-site_name: Untitled
+site_name: "syscon : A system control library"
 site_description:  
 theme:
   name: material
