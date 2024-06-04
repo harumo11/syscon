@@ -2,4 +2,5 @@ title: syscon
 description: A systen control library
 files:
   - "../syscon/math.hpp"
+  - "../syscon/filter.hpp"
 
