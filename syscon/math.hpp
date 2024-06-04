@@ -5,7 +5,7 @@
 namespace syscon {
 
 /**
- * @brief convert from time constant T [s] to cut-off frequency fc [Hz].
+ * @brief convert from time constant $T$ [s] to cut-off frequency $f_c$ [Hz].
  *
  * $$
  * f_c = \frac{1}{2\pi T}
@@ -21,7 +21,7 @@ double T2fc(auto const T)
 }
 
 /**
- * @brief convert from cut-off frequency wc [rad/s] to time constant T [s].
+ * @brief convert from cut-off frequency $w_c$ [rad/s] to time constant $T$ [s].
  *
  * $$
  * T = \frac{1}{w_c}
@@ -37,7 +37,7 @@ double wc2T(auto const wc)
 }
 
 /**
- * @brief convert from time constant T [s] to cut-off frequency wc [rad/s].
+ * @brief convert from time constant $T$ [s] to cut-off frequency $w_c$ [rad/s].
  *
  * $$
  * w_c = \frac{1}{T}
@@ -45,7 +45,7 @@ double wc2T(auto const wc)
  *
  * @param T Time constant [s]
  *
- * @return cut-off frequency [rad/s]
+ * @return cut-off frequency $w_c$ [rad/s]
  */
 double T2wc(auto const T)
 {
@@ -53,7 +53,7 @@ double T2wc(auto const T)
 }
 
 /**
- * @brief convert from cut-off frequency fc [Hz] to cut-off frequency wc [rad/s].
+ * @brief convert from cut-off frequency $f_c$ [Hz] to cut-off frequency $w_c$ [rad/s].
  *
  * $$
  * w_c = 2\pi f_c
@@ -61,7 +61,7 @@ double T2wc(auto const T)
  *
  * @param fc cut-off frequency [Hz]
  *
- * @return cut-off frequency [rad/s]
+ * @return cut-off frequency $w_c$ [rad/s]
  */
 double fc2wc(auto const fc)
 {
@@ -69,7 +69,7 @@ double fc2wc(auto const fc)
 }
 
 /**
- * @brief convert from cut-off frequency fc [Hz] to time constant T [s].
+ * @brief convert from cut-off frequency $f_c$ [Hz] to time constant $T$ [s].
  *
  * $$
  * T = \frac{1}{2\pi f_c}

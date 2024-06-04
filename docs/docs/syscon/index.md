@@ -13,11 +13,11 @@ generator: doxide
 
 | Name | Description |
 | ---- | ----------- |
-| [T2fc](#T2fc) | convert from time constant T [s] to cut-off frequency fc [Hz]. |
-| [T2wc](#T2wc) | convert from time constant T [s] to cut-off frequency wc [rad/s]. |
-| [fc2T](#fc2T) | convert from cut-off frequency fc [Hz] to time constant T [s]. |
-| [fc2wc](#fc2wc) | convert from cut-off frequency fc [Hz] to cut-off frequency wc [rad/s]. |
-| [wc2T](#wc2T) | convert from cut-off frequency wc [rad/s] to time constant T [s]. |
+| [T2fc](#T2fc) | convert from time constant $T$ [s] to cut-off frequency $f_c$ [Hz]. |
+| [T2wc](#T2wc) | convert from time constant $T$ [s] to cut-off frequency $w_c$ [rad/s]. |
+| [fc2T](#fc2T) | convert from cut-off frequency $f_c$ [Hz] to time constant $T$ [s]. |
+| [fc2wc](#fc2wc) | convert from cut-off frequency $f_c$ [Hz] to cut-off frequency $w_c$ [rad/s]. |
+| [wc2T](#wc2T) | convert from cut-off frequency $w_c$ [rad/s] to time constant $T$ [s]. |
 
 ## Function Details
 
@@ -26,7 +26,7 @@ generator: doxide
 
     
     
-    convert from time constant T [s] to cut-off frequency fc [Hz].
+    convert from time constant $T$ [s] to cut-off frequency $f_c$ [Hz].
     
     $$
     f_c = \frac{1}{2\pi T}
@@ -45,7 +45,7 @@ generator: doxide
 
     
     
-    convert from time constant T [s] to cut-off frequency wc [rad/s].
+    convert from time constant $T$ [s] to cut-off frequency $w_c$ [rad/s].
     
     $$
     w_c = \frac{1}{T}
@@ -55,7 +55,7 @@ generator: doxide
     :    Time constant [s]
     
     :material-keyboard-return: **Return**
-    :    cut-off frequency [rad/s]
+    :    cut-off frequency $w_c$ [rad/s]
     
     
 
@@ -64,7 +64,7 @@ generator: doxide
 
     
     
-    convert from cut-off frequency fc [Hz] to time constant T [s].
+    convert from cut-off frequency $f_c$ [Hz] to time constant $T$ [s].
     
     $$
     T = \frac{1}{2\pi f_c}
@@ -83,7 +83,7 @@ generator: doxide
 
     
     
-    convert from cut-off frequency fc [Hz] to cut-off frequency wc [rad/s].
+    convert from cut-off frequency $f_c$ [Hz] to cut-off frequency $w_c$ [rad/s].
     
     $$
     w_c = 2\pi f_c
@@ -93,7 +93,7 @@ generator: doxide
     :    cut-off frequency [Hz]
     
     :material-keyboard-return: **Return**
-    :    cut-off frequency [rad/s]
+    :    cut-off frequency $w_c$ [rad/s]
     
     
 
@@ -102,7 +102,7 @@ generator: doxide
 
     
     
-    convert from cut-off frequency wc [rad/s] to time constant T [s].
+    convert from cut-off frequency $w_c$ [rad/s] to time constant $T$ [s].
     
     $$
     T = \frac{1}{w_c}
