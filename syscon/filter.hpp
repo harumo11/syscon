@@ -11,7 +11,22 @@
 namespace syscon {
 
 /**
- * @brief A class of first-order lowpass filter.
+ * @brief A class of first-order lowpass filter that can smoothes the input signal.
+ *
+ * This filter smoothes the input signal
+ * using filter coefficients and past output values to generate
+ * an output signal with high frequency components removed.
+ *
+ * The smoothed output, filter coefficients, and past output
+ * are expressed by following formura.
+ *
+ * $y[t] = c_1 x[t] + c_2 x[t-1] + c_3 y[t-1]$.
+ *
+ * - $[t]$ : Time step
+ * - $y[t]$ : Smoothed output that removed high frequency components.
+ * - $x[t]$ : Input signal that includes high frequency components.
+ * - $c_1$~$c_3$ : Coefficients of the filter.
+ *
  */
 class lowpass1 {
 public:
@@ -30,8 +45,8 @@ public:
     /**
      * @brief The constructor of a low pass filter of first-order system.
      *
-     * This constructor takes all the parameters that needed to start using the
-     * filter.
+     * This constructor takes all the information needed to user the filter.
+     * Then, it calculates the filter coefficients internally.
      *
      * ```
      * double cut_off_frequency = 20; //20Hz
@@ -49,7 +64,7 @@ public:
     }
 
     /**
-     * @brief Returns the value with high frequency components removed.
+     * @brief Returns a signal that high frequency components removed.
      *
      * @param observed_x The new input for this filter.
      * This value is observed by a sensor, etc., and includes high frequency
@@ -84,16 +99,33 @@ public:
     }
 
     /**
-     * @brief Returns coefficients and parameter of filter.
+     * @brief Returns coefficients and parameters of the filter.
      *
-     * @return Returns tuple including two vector.
+     * ```c++
+     * double cutoff_freq = 5;
+     * double sample_freq = 100;
      *
-     * - vector1 : coefficients of filter ($c_1$~$c_3$)
-     *   $y[t] = c_1 x[t] + c_2 x[t-1] + c_3 y[t-1]$
+     * syscon::lowpass1 filter(cutoff_freq, sample_freq);
+     * auto [coefficients, parameters] = filter.get_filter_params();
      *
-     * - vector2 : time parameters of filter
-     *       - sampling period [s]
-     *       - time constant [s]
+     * std::cout << "y[t] = coefficients.at(0) << "x[t] + " << coefficients.at(1) << "x[t-1] + " << coefficients.at(2) << "y[t-1]" << std::endl;
+     * std::cout << "[sampling period] = " << parameters.at(0) << " [s]" << std::endl;
+     * std::cout << "[time constant  ] = " << parameters.at(1) << " [s]" << std::endl;
+     *
+     * ----------------------
+     * y[t] = 0.135755 x[t] + 0.135755 x[t-1] + 0.72849 y[t-1]
+     * [sampling period   ] = 0.01s
+     * [time constant     ] = 0.031831s
+     *
+     * ```
+     *
+     * @return Returns coefficients and parameters of the low pass filter.
+     *
+     * - Coefficients of the filter ($c_1$~$c_3$) in
+     *   $y[t] = c_1 x[t] + c_2 x[t-1] + c_3 y[t-1]$.
+     *
+     * - Time parameters of the filter : Sampling period [s] and time constant [s].
+     *
      */
     std::tuple<std::vector<double>, std::vector<double>> get_filter_params()
     {
@@ -112,17 +144,22 @@ public:
     }
 
     /**
-     * @brief frequency responsese of the filter.
+     * @brief calculates multiple frequency responsese of the filter.
      *
-     * @param omega vector of omega that you want to know the frequency response.
+     * @param omega This vector contains the anguler frequencies [rad/s] for which
+     * you want to know the frequency response of the filter.
      *
-     * @return Three vectors of magnitude, phase, and, omega. omega is sorted.
+     * @return Three vectors reresent magnitude, phase, and, anguler frequency respectively.
+     * Anguler frequencies are sorted in ascending order.
+     * The magnitude and phase contains the frequency response correspoing to omega.
+     * For example, the response at `omega.at(2)` is in `magnitude.at(2)` and `phase.at(2)`.
+     *
      */
     std::tuple<std::vector<double>, std::vector<double>, std::vector<double>> frequency_response(std::vector<double> omega)
     {
         Require(omega.size() > 0, "The size of omega vector is zero. That size must be bigger than zero.");
         auto negative_value_index = std::find_if(omega.begin(), omega.end(), [](double omega) { return omega < 0; });
-        Require(negative_value_index == omega.end(), "Omega vector hass negative value. Omega must be bigger than or equal to zero.");
+        Require(negative_value_index == omega.end(), "Omega vector has negative value. Omega must be bigger than or equal to zero.");
 
         std::vector<double> mag;
         std::vector<double> phase;

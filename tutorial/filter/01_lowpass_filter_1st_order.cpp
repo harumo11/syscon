@@ -18,8 +18,10 @@ int main(int argc, char* argv[])
     // print filter coefficients
     std::cout << "||| How to set-up low pass filter" << std::endl;
     std::cout << "y[t] = " << coefficients_after.at(0) << " x[t] + " << coefficients_after.at(1) << " x[t-1] + " << coefficients_after.at(2) << " y[t-1]" << std::endl;
-    std::cout << "[cut-off frequency]  = " << cutoff_freq << "Hz" << std::endl;
+    std::cout << "[cut-off frequency ] = " << cutoff_freq << "Hz" << std::endl;
     std::cout << "[sampling frequency] = " << sample_freq << "Hz" << std::endl;
+    std::cout << "[sampling period   ] = " << parameters_after.at(0) << "s" << std::endl;
+    std::cout << "[time constant     ] = " << parameters_after.at(1) << "s" << std::endl;
 
     // noized signal parameters for test of the fileter
     double dt = 1.0 / sample_freq; // sampling period
