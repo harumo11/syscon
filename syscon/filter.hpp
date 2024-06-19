@@ -10,13 +10,16 @@
 
 namespace syscon {
 
+/**
+ * @brief A class of first-order lowpass filter.
+ */
 class lowpass1 {
 public:
     const unsigned int filter_order = 1;
     const std::string filter_kind = "First-order system";
 
     /**
-     * @brief The constructor of First-order system.
+     * @brief The constructor of a low pass filter of first-order system.
      *
      * This constructor dose not take any arguments, so use
      * lowpass1::set_filter_params() to pass the filter parameter before you use
@@ -25,10 +28,17 @@ public:
     lowpass1() { }
 
     /**
-     * @brief The constructor of First-order system.
+     * @brief The constructor of a low pass filter of first-order system.
      *
      * This constructor takes all the parameters that needed to start using the
      * filter.
+     *
+     * ```
+     * double cut_off_frequency = 20; //20Hz
+     * double sampling_frequency = 100; // 100Hz
+     *
+     * syscon::lowpass1 filter(cut_off_frequency, sampling_frequency);
+     * ```
      *
      * @param cutoff_freq The cut off frequency [Hz]
      * @param sample_freq sampling frequency [Hz]
@@ -45,7 +55,18 @@ public:
      * This value is observed by a sensor, etc., and includes high frequency
      * components.
      *
-     * @return observed_x without high frequency components.
+     *``` cpp
+     *
+     * syscon::lowpass1 filter(20, 100);
+     * while(true)
+     * {
+     *      sensor_signal = get_sensor_data();
+     *      signal = filter.step(sensor_signal);
+     * }
+     *
+     *```
+     *
+     * @return A signal from witch frequency components more than the cutoff frequency is removed.
      */
     double step(const double observed_x)
     {
@@ -66,12 +87,13 @@ public:
      * @brief Returns coefficients and parameter of filter.
      *
      * @return Returns tuple including two vector.
-     * - vector1 : coefficients of filter (c1~c3)
-     *   y[t] = c1 * x[t] + c2 * x[t-1] + c3 * y[t-1]
+     *
+     * - vector1 : coefficients of filter ($c_1$~$c_3$)
+     *   $y[t] = c_1 x[t] + c_2 x[t-1] + c_3 y[t-1]$
      *
      * - vector2 : time parameters of filter
-     *   - sampling period [s]
-     *   - time constant [s]
+     *       - sampling period [s]
+     *       - time constant [s]
      */
     std::tuple<std::vector<double>, std::vector<double>> get_filter_params()
     {
