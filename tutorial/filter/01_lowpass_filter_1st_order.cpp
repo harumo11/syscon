@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
     double dt = 1.0 / sample_freq; // sampling period
     double f1 = 1; // signal frequency [Hz]
     double f2 = 30; // noize frequency [Hz]
-    double A1 = 1.0; // Amptitude of signal
+    double A1 = 1.0; // amptitude of signal
     double A2 = 0.3; // amptitude of noize
 
     syscon::scatter plot_noized;
@@ -38,12 +38,14 @@ int main(int argc, char* argv[])
         double t = dt * i;
         double y1 = A1 * std::sin(2 * std::numbers::pi * f1 * t);
         double y2 = A2 * std::sin(2 * std::numbers::pi * f2 * t);
-        double y = y1 + y2;
+        double y_noized = y1 + y2;
 
-        double y_filterd = filter.step(y);
+        double y_filterd = filter.step(y_noized);
 
-        plot_noized.plot(t, y);
+        plot_noized.plot(t, y_noized);
         plot_filterd.plot(t, y_filterd);
+        plot_noized.set_title("original noizy signal");
+        plot_filterd.set_title("filterd signal");
 
         plot_noized.show(false, true);
         plot_filterd.show(false, true);
