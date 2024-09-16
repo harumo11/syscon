@@ -53,6 +53,9 @@ TEST_CASE("Check if time constant is set properly using cut-off frequency", "[lo
 
 TEST_CASE("Check for coefficients of filter", "[lowpass1]")
 {
+    //Verification of the correctness of the filter coefficients calculated inside the class
+    
+    // filter coefficient calculation outside
     double cutoff_freq = 5;
     double sampling_freq = 100;
     double dt = 1.0 / sampling_freq;
@@ -60,9 +63,11 @@ TEST_CASE("Check for coefficients of filter", "[lowpass1]")
     double coeff1 = dt / (dt + 2 * T);
     double coeff2 = -1 * (dt - 2 * T) / (dt + 2 * T);
 
+    // filter coefficient calculation inside
     syscon::lowpass1 filter(cutoff_freq, sampling_freq);
     auto [coeffs, params] = filter.get_filter_params();
 
+    // comparison whether the coefficient of outside and the inside of coefficient is same.
     CHECK(coeffs.at(0) == coeffs.at(1));
     CHECK(coeffs.at(0) == coeff1);
     CHECK(coeffs.at(2) == coeff2);
