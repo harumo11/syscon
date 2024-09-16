@@ -81,7 +81,7 @@ public:
      *
      *```
      *
-     * @return A signal from witch frequency components more than the cutoff frequency is removed.
+     * @return A signal from which frequency components more than the cutoff frequency is removed.
      */
     double step(const double observed_x)
     {
